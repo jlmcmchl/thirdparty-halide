@@ -1,0 +1,6 @@
+!*.gradle
+build*/
+/install*
+/.gradle
+/gradleDir
+toolchain
