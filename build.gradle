@@ -72,9 +72,9 @@ def pubVersion = "4.3-4"
 
 def outputsFolder = file("$project.buildDir/outputs")
 
-def baseArtifactId = 'gtsam'
-def artifactGroupId = 'edu.wpi.first.thirdparty.frc2025.gtsam'
-def zipBaseName = '_GROUP_edu_wpi_first_thirdparty_frc2025_gtsam_ID_gtsam-cpp_CLS'
+def baseArtifactId = 'halide'
+def artifactGroupId = 'edu.wpi.first.thirdparty.frc2027.halide'
+def zipBaseName = '_GROUP_edu_wpi_first_thirdparty_frc2027_halide_ID_halide-cpp_CLS'
 
 def versionFile = file("$outputsFolder/version.txt")
 def licenseFile = file("LICENSE.md")
@@ -140,7 +140,7 @@ task outputVersions() {
         archiveBaseName = zipBaseName
         duplicatesStrategy = 'exclude'
 
-        def license = Paths.get(projectDir.canonicalPath).resolve(buildDir).resolve("_deps").resolve("gtsam-src")
+        def license = Paths.get(projectDir.canonicalPath).resolve(buildDir).resolve("_deps").resolve("halide-src")
         from(license.toFile()) {
             into '/'
             include 'LICENSE*'
@@ -163,7 +163,7 @@ task cppHeadersZip(type: Zip) {
     archiveBaseName = zipBaseName
     archiveClassifier = "headers"
 
-    def license = Paths.get(projectDir.canonicalPath).resolve("buildDebug").resolve("_deps").resolve("gtsam-src")
+    def license = Paths.get(projectDir.canonicalPath).resolve("buildDebug").resolve("_deps").resolve("halide-src")
     from(license.toFile()) {
         into '/'
         include 'LICENSE*'
@@ -184,7 +184,7 @@ task cppSourcesZip(type: Zip) {
     archiveBaseName = zipBaseName
     archiveClassifier = "sources"
 
-    def license = Paths.get(projectDir.canonicalPath).resolve("buildDebug").resolve("_deps").resolve("gtsam-src")
+    def license = Paths.get(projectDir.canonicalPath).resolve("buildDebug").resolve("_deps").resolve("halide-src")
     from(license.toFile()) {
         into '/'
         include 'LICENSE*'
