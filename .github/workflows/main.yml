@@ -144,7 +144,7 @@ jobs:
 
   combine:
     name: Combine
-    needs: [build-docker, build-windows, build-mac]
+    needs: [build-docker, build-windows-amd64, build-windows-arm64, build-mac]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
