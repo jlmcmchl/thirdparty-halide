@@ -34,6 +34,8 @@ jobs:
     container: ${{ matrix.container }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: 'true'
       - uses: actions/setup-java@v4
         with:
           java-version: 17
@@ -65,7 +67,7 @@ jobs:
             build-options: -Pplatform=windows-x86_64
 
     name: "Build - ${{ matrix.artifact-name }}"
-    runs-on: windows-2019
+    runs-on: windows-2022
     steps:
       - uses: actions/checkout@v4
         with:
