@@ -149,6 +149,8 @@ task "cmakeBuildLLVMRelease"(type: Exec) {
     args baseArgs
 }
 
+def baseFolder = project.projectDir.absolutePath
+
 ["Debug", "RelWithDebInfo"].each { buildType ->
 
     def buildDir = "build$buildType"
@@ -161,7 +163,7 @@ task "cmakeBuildLLVMRelease"(type: Exec) {
                         "-G", "Ninja", 
                         "-DCMAKE_BUILD_TYPE=$buildType", 
                         "-DCMAKE_INSTALL_PREFIX=$installDir",
-                        "-DHalide_LLVM_ROOT=$llvmInstallDir",
+                        "-DHalide_LLVM_ROOT=$baseFolder/$llvmInstallDir",
                         "-DHalide_WASM_BACKEND=OFF",
                         "-DWITH_SERIALIZATION=OFF",
                         "-DWITH_DOCS=OFF",
