@@ -35,7 +35,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          submodules: 'true'
+          submodules: 'recursive'
+          fetch-depth: 1
+      - name: Cache LLVM submodule
+        uses: actions/cache@v4
+        with:
+          path: llvm-project
+          key: llvm-${{ hashFiles('.gitmodules') }}
+          restore-keys: llvm-
+      - name: Cache Halide submodule
+        uses: actions/cache@v4
+        with:
+          path: Halide
+          key: Halide-${{ hashFiles('.gitmodules') }}
+          restore-keys: Halide-
       - uses: actions/setup-java@v4
         with:
           java-version: 17
@@ -71,7 +84,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          submodules: 'true'
+          submodules: 'recursive'
+          fetch-depth: 1
+      - name: Cache LLVM submodule
+        uses: actions/cache@v4
+        with:
+          path: llvm-project
+          key: llvm-${{ hashFiles('.gitmodules') }}
+          restore-keys: llvm-
+      - name: Cache Halide submodule
+        uses: actions/cache@v4
+        with:
+          path: Halide
+          key: Halide-${{ hashFiles('.gitmodules') }}
+          restore-keys: Halide-
       - uses: actions/setup-java@v4
         with:
           java-version: 17
@@ -103,7 +129,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          submodules: 'true'
+          submodules: 'recursive'
+          fetch-depth: 1
+      - name: Cache LLVM submodule
+        uses: actions/cache@v4
+        with:
+          path: llvm-project
+          key: llvm-${{ hashFiles('.gitmodules') }}
+          restore-keys: llvm-
+      - name: Cache Halide submodule
+        uses: actions/cache@v4
+        with:
+          path: Halide
+          key: Halide-${{ hashFiles('.gitmodules') }}
+          restore-keys: Halide-
       - uses: actions/setup-java@v4
         with:
           java-version: 21
@@ -127,7 +166,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          submodules: 'true'
+          submodules: 'recursive'
+          fetch-depth: 1
+      - name: Cache LLVM submodule
+        uses: actions/cache@v4
+        with:
+          path: llvm-project
+          key: llvm-${{ hashFiles('.gitmodules') }}
+          restore-keys: llvm-
+      - name: Cache Halide submodule
+        uses: actions/cache@v4
+        with:
+          path: Halide
+          key: Halide-${{ hashFiles('.gitmodules') }}
+          restore-keys: Halide-
       - uses: actions/setup-java@v4
         with:
           java-version: 17
