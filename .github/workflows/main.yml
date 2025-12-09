@@ -49,9 +49,9 @@ jobs:
       - name: Install Dependencies
         run: |
           sudo apt-get update -q
-          sudo apt-get install -y ninja-build build-essential libtbb-dev
+          sudo apt-get install -y ninja-build build-essential libtbb-dev libzstd-dev
       - name: Build with Gradle
-        run: ./gradlew publish -PllvmPath=${{ env.LLVM_PATH }} ${{ matrix.build-options }}
+        run: ./gradlew publish -PllvmPath="${{ env.LLVM_PATH }}" ${{ matrix.build-options }}
         # env:
         #   SCCACHE_WEBDAV_USERNAME: ${{ secrets.ARTIFACTORY_USERNAME }}
         #   SCCACHE_WEBDAV_PASSWORD: ${{ secrets.ARTIFACTORY_PASSWORD }}
@@ -68,7 +68,7 @@ jobs:
           - artifact-name: Win64
             runs-on: windows-2022
             tool-arch: amd64
-            build-options: -Pplatform=windows-x86_64 -PllvmPath=./llvm
+            build-options: -Pplatform=windows-x86_64
             llvm-version: "20.1.7"
             java-version: 17
           - artifact-name: WinArm64
@@ -97,7 +97,7 @@ jobs:
         with:
           version: ${{ matrix.llvm-version }}
       - name: Build with Gradle
-        run: ./gradlew publish -PllvmPath=${{ env.LLVM_PATH }} ${{ matrix.build-options }}
+        run: ./gradlew publish -PllvmPath="${{ env.LLVM_PATH }}" ${{ matrix.build-options }}
         # env:
         #   SCCACHE_WEBDAV_USERNAME: ${{ secrets.ARTIFACTORY_USERNAME }}
         #   SCCACHE_WEBDAV_PASSWORD: ${{ secrets.ARTIFACTORY_PASSWORD }}
@@ -125,7 +125,7 @@ jobs:
       - run: brew install cmake ninja
         name: install ninja
       - name: Build with Gradle
-        run: ./gradlew publish -Pplatform=osx-universal -PllvmPath=${{ env.LLVM_PATH }}
+        run: ./gradlew publish -Pplatform=osx-universal -PllvmPath="${{ env.LLVM_PATH }}"
         # env:
         #   SCCACHE_WEBDAV_USERNAME: ${{ secrets.ARTIFACTORY_USERNAME }}
         #   SCCACHE_WEBDAV_PASSWORD: ${{ secrets.ARTIFACTORY_PASSWORD }}
