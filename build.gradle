@@ -118,7 +118,6 @@ task outputVersions() {
     def installDir = "install$buildType"
 
     task "cmakeConfigure$buildType"(type: Exec) {
-        dependsOn "cmakeBuildLLVMRelease"
         def baseArgs = ["-S", "Halide",
                         "-B", buildDir, 
                         "-G", "Ninja", 
