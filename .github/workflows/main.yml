@@ -50,6 +50,7 @@ jobs:
         run: |
           sudo apt-get update -q
           sudo apt-get install -y ninja-build build-essential libtbb-dev libzstd-dev
+      - run: ls -R
       - name: Build with Gradle
         run: ./gradlew publish -PllvmPath="${{ env.LLVM_PATH }}" ${{ matrix.build-options }}
         # env:
@@ -122,6 +123,7 @@ jobs:
         uses: KyleMayes/install-llvm-action@v2.0.8
         with:
           version: "20.1.7"
+          env: true
       - run: brew install cmake ninja
         name: install ninja
       - name: Build with Gradle

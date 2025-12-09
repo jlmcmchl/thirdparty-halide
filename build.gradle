@@ -131,7 +131,8 @@ task outputVersions() {
                         "-DWITH_DOCS=OFF",
                         "-DWITH_PYTHON_BINDINGS=OFF",
                         "-DWITH_TESTS=OFF",
-                        "-DWITH_TUTORIALS=OFF"]
+                        "-DWITH_TUTORIALS=OFF",
+                        "--debug-find"]
 
         if (project.hasProperty('sccache')) {
             baseArgs = baseArgs + "-DCMAKE_C_COMPILER_LAUNCHER=sccache" + "-DCMAKE_CXX_COMPILER_LAUNCHER=sccache"
