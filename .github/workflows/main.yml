@@ -25,7 +25,7 @@ jobs:
             build-options: -Pplatform=linux-arm64 -Ptoolchain=/usr/local/toolchain-config.cmake
           - container: wpilib/ubuntu-base:22.04
             artifact-name: Linux
-            target-arch: x86_64
+            target-arch: x64
             llvm-version: "20.1.7"
             build-options: -Pplatform=linux-x86_64
 
@@ -42,7 +42,7 @@ jobs:
           java-version: 17
           distribution: 'temurin'
       - name: Install LLVM and Clang
-        uses: KyleMayes/install-llvm-action@v2
+        uses: KyleMayes/install-llvm-action@v2.0.8
         with:
           version: ${{ matrix.llvm-version }}
           arch: ${{ matrix.target-arch }}
@@ -70,11 +70,13 @@ jobs:
             tool-arch: amd64
             build-options: -Pplatform=windows-x86_64 -PllvmPath=./llvm
             llvm-version: "20.1.7"
+            java-version: 17
           - artifact-name: WinArm64
             runs-on: windows-11-arm
             tool-arch: amd64_arm64
             build-options: -Pplatform=windows-arm64
             llvm-version: "20.1.7"
+            java-version: 21
 
     name: "Build - ${{ matrix.artifact-name }}"
     runs-on: ${{ matrix.runs-on }}
@@ -85,13 +87,13 @@ jobs:
           fetch-depth: 1
       - uses: actions/setup-java@v4
         with:
-          java-version: 17
+          java-version: ${{ matrix.java-version }}
           distribution: 'temurin'
       - uses: ilammy/msvc-dev-cmd@v1.13.0
         with:
           arch: ${{ matrix.tool-arch }}
       - name: Install LLVM and Clang
-        uses: KyleMayes/install-llvm-action@v2
+        uses: KyleMayes/install-llvm-action@v2.0.8
         with:
           version: ${{ matrix.llvm-version }}
       - name: Build with Gradle
@@ -117,7 +119,7 @@ jobs:
           java-version: 17
           distribution: 'temurin'
       - name: Install LLVM and Clang
-        uses: KyleMayes/install-llvm-action@v2
+        uses: KyleMayes/install-llvm-action@v2.0.8
         with:
           version: "20.1.7"
       - run: brew install cmake ninja
