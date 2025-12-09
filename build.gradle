@@ -124,6 +124,8 @@ task outputVersions() {
                         "-G", "Ninja", 
                         "-DCMAKE_BUILD_TYPE=$buildType", 
                         "-DCMAKE_INSTALL_PREFIX=$installDir",
+                        "-DBUILD_SHARED_LIBS=OFF",
+                        "-DHalide_BUNDLE_STATIC=ON",
                         "-DHalide_LLVM_ROOT=$llvmPath",
                         "-DHalide_WASM_BACKEND=OFF",
                         "-DWITH_SERIALIZATION=OFF",
