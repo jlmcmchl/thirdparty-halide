@@ -79,7 +79,13 @@ def zipBaseName = '_GROUP_edu_wpi_first_thirdparty_frc2027_halide_ID_halide-cpp_
 def versionFile = file("$outputsFolder/version.txt")
 def licenseFile = file("LICENSE.md")
 
-println platformPath
+if (project.hasProperty('llvmPath')) {
+    ext.llvmPath = project.llvmPath
+} else {
+    if (gradle.startParameter.taskNames.any { it.toLowerCase().contains('publish') }) {
+        throw new GradleException("The 'publish' task cannot be run without specifying 'llvmPath'.")
+    }
+}
 
 task copyAllOutputs(type: Copy) {
     destinationDir = outputsFolder
@@ -106,51 +112,6 @@ task outputVersions() {
     }
 }
 
-def llvmBuildDir = "buildLLVMRelease"
-def llvmInstallDir = "installLLVMRelease"
-
-task "cmakeConfigureLLVMRelease"(type: Exec) {
-    def baseArgs = ["-S", "llvm-project/llvm", 
-                    "-B", llvmBuildDir, 
-                    "-G", "Ninja", 
-                    "-DCMAKE_BUILD_TYPE=Release", 
-                    "-DCMAKE_INSTALL_PREFIX=$llvmInstallDir",
-                    "-DLLVM_ENABLE_PROJECTS=clang;lld;clang-tools-extra",
-                    "-DLLVM_ENABLE_RUNTIMES=compiler-rt",
-                    "-DLLVM_TARGETS_TO_BUILD=WebAssembly;X86;AArch64;ARM;Hexagon;NVPTX;PowerPC;RISCV",
-                    "-DLLVM_ENABLE_ASSERTIONS=ON",
-                    "-DLLVM_ENABLE_EH=ON",
-                    "-DLLVM_ENABLE_RTTI=ON",
-                    "-DLLVM_ENABLE_HTTPLIB=OFF",
-                    "-DLLVM_ENABLE_LIBEDIT=OFF",
-                    "-DLLVM_ENABLE_LIBXML2=OFF",
-                    "-DLLVM_ENABLE_TERMINFO=OFF",
-                    "-DLLVM_ENABLE_ZLIB=OFF",
-                    "-DLLVM_ENABLE_ZSTD=OFF",
-                    "-DLLVM_BUILD_32_BITS=OFF"]
-
-    if (project.hasProperty('sccache')) {
-        baseArgs = baseArgs + "-DCMAKE_C_COMPILER_LAUNCHER=sccache" + "-DCMAKE_CXX_COMPILER_LAUNCHER=sccache"
-    }
-    if (project.hasProperty("toolchain")) {
-        baseArgs += ["--toolchain=$toolchain"]
-    }
-    outputs.dir llvmBuildDir
-    executable "cmake"
-    args baseArgs
-}
-
-task "cmakeBuildLLVMRelease"(type: Exec) {
-    dependsOn "cmakeConfigureLLVMRelease"
-    def processors = Runtime.runtime.availableProcessors()
-    def baseArgs = ["--build", llvmBuildDir, "--parallel", "$processors", "--target", "install"]
-    outputs.dirs llvmBuildDir, llvmInstallDir
-    executable "cmake"
-    args baseArgs
-}
-
-def baseFolder = project.projectDir.absolutePath
-
 ["Debug", "RelWithDebInfo"].each { buildType ->
 
     def buildDir = "build$buildType"
@@ -163,7 +124,7 @@ def baseFolder = project.projectDir.absolutePath
                         "-G", "Ninja", 
                         "-DCMAKE_BUILD_TYPE=$buildType", 
                         "-DCMAKE_INSTALL_PREFIX=$installDir",
-                        "-DHalide_LLVM_ROOT=$baseFolder/$llvmInstallDir",
+                        "-DHalide_LLVM_ROOT=$llvmPath",
                         "-DHalide_WASM_BACKEND=OFF",
                         "-DWITH_SERIALIZATION=OFF",
                         "-DWITH_DOCS=OFF",
