@@ -143,6 +143,7 @@ task outputVersions() {
         outputs.dir buildDir
         executable "cmake"
         args baseArgs
+        environment "CMAKE_PREFIX_PATH", llvmPath
     }
 
     task "cmakeBuild$buildType"(type: Exec) {
